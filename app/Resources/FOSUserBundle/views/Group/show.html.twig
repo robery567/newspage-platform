@@ -1,0 +1,48 @@
+{% trans_default_domain 'FOSUserBundle' %}
+{% extends '::panel.html.twig' %}
+
+{% set page_name = 'Informații grup' %}
+
+{% block title %}
+	{{ page_name }} : Panou Administrator
+{% endblock %}
+
+{% block body_title %}
+	<h1>{{ page_name }}</h1>
+{% endblock %}
+
+{% block body %}
+	<div class="row">
+        <div class="panel panel-default">
+            <div class="panel-heading"></div>
+
+            <div class="panel-body">
+                <table class="table table-responsive table-bordered">
+                    <tbody>
+                        <tr>
+                            <th>ID</th>
+                            <td>{{ group.getId() }}</td>
+                        </tr>
+                        <tr>
+                            <th>Nume</th>
+                            <td>{{ group.getName() }}</td>
+                        </tr>
+                        <tr>
+                            <th>Roluri</th>
+	                        {#<td>{{ role_list(role.role) }}</td>#}
+	                        <td>{{ role_list(group.getRoles()) }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="panel-footer">
+                <div class="btn-group">
+                    <a href="{{ path('fos_user_group_list') }}" class="btn btn-default">Înapoi la listă</a>
+                    <a href="{{ path('fos_user_group_edit', { 'groupName': group.getName() }) }}" class="btn btn-primary">Modifică</a>
+                    <a href="{{ path('fos_user_group_delete', { 'groupName': group.getName() }) }}" class="btn btn-danger">Șterge</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

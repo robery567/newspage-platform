@@ -1,0 +1,137 @@
+{% extends "::platform.html.twig" %}
+
+{% import ':_macros:display_news_grid.html.twig' as helper %}
+
+{% block title %}{{ news_title }} &mdash; {% endblock %}
+
+{% block body %}
+    <div class="block_general_title_2">
+        <h1>{{ news_title }}</h1>
+    </div>
+    <div class="row">
+    {% if news_cols == 2 %}
+        <div class="col-md-9">
+            <div class="row">
+                {% for article in articles.middle %}
+                    {% if loop.first %}
+                        <div class="panel panel-article-headline">
+                            <div class="panel-heading">
+                                {{ article.title }}
+                            </div>
+                            <div class="panel-body">
+                                <div class="row" data-article-id="{{ article.articleId }}">
+                                    <div class="col-xs-6">
+                                        {{ article.preview|raw }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel-footer">
+                                <div class="pull-right">
+                                    <a href="{{ path('main_article', {
+                                        'category': article.category.slug,
+                                        'slug': article.slug
+                                    }) }}" class="btn btn-article-headline">
+                                        Citește mai mult <i class="fa fa-arrow-right"></i>
+                                    </a>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="col-md-4">
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+                                    <div class="main_content">
+                                        <div class="block_posts">
+                                            <div class="posts">
+                                                <article class="post_type_1" data-article-id="{{ article.articleId }}">
+                                                    <div class="title">
+                                                        <a href="{{ path('main_article', { 'category': article.category.slug, 'slug': article.slug }) }}">
+                                                        {{ article.title }}
+                                                        </a>
+                                                    </div>
+                                                </article>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% else %}
+                    <div class="panel panel-info">
+                        <div class="panel-body">
+                            <div class="alert alert-info">
+                                <strong>Ups!</strong> Momentan, nu există nicio știre ce îndeplinește criteriile menționate!
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    {% elseif news_cols == 1 %}
+        <div class="col-md-9">
+            {% if articles.haveToPaginate is defined and articles.haveToPaginate %}
+                <nav>
+                    {{ pagerfanta(articles, 'twitter_bootstrap3_translated') }}
+                </nav>
+                <hr>
+            {% endif %}
+
+            {{ helper.render_news(articles, 2) }}
+
+            {% if articles.haveToPaginate is defined and articles.haveToPaginate %}
+                <hr>
+                <div class="pagination pagination-lg">
+                    {{ pagerfanta(articles, 'twitter_bootstrap3_translated') }}
+                </div>
+            {% endif %}
+        </div>
+    {% endif %}
+
+        <div class="col-md-3">
+            <h1>Articole recomandate:</h1>
+            <div class="block_sidebar_popular_posts">
+                <div class="panel panel-default">
+                    {{ article_recommended()|raw }}
+                </div>
+            </div>
+
+            <hr>
+
+            <h1>Ultimele știri:</h1>
+            <div class="block_sidebar_latest_news">
+                <div class="panel panel-default">
+                    {{ article_latest()|raw }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <hr>
+
+{% if news_cols == 2 %}
+    <div class="row box">
+        {% if categories.headline is not empty %}
+	        {% for category in categories.headline %}
+                <div class="col-md-2">
+                    <div class="headline-title">{{ category.name }}</div>
+                    <div class="article-box">
+                        {{ article_from_category(category.id, 'post_type_3')|raw }}
+                    </div>
+                </div>
+	        {% endfor %}
+        {% endif %}
+    </div>
+
+    <hr>
+
+    {{ helper.render_news(categories.all, 3) }}
+
+    <div class="text-center">
+        <a href="{{ path('main_news') }}" class="btn btn-article-headline btn-lg">Vezi toate știrile</a>
+    </div>
+
+    <hr>
+{% endif %}
+{% endblock %}

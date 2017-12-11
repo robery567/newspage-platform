@@ -1,0 +1,84 @@
+{% extends '::panel.html.twig' %}
+
+{% set page_name = 'Prima pagină' %}
+
+{% block title %}
+    {{ page_name }} : Panou de control reclame
+{% endblock %}
+
+{% block body_title %}
+    <h1 class="page-header">{{ page_name }}</h1>
+{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <i class="fa fa-list-ol"></i> Listare reclame
+                <div class="pull-right">
+                    <div class="btn-group">
+                        <div class="btn-group">
+                            <a href="{{ path('panel_ad_new') }}" class="btn btn-primary">Adaugă o reclamă nouă!</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+
+            <div class="panel-body">
+                <table class="table table-responsive table-striped">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Titlu</th>
+                        <th>Poziție</th>
+                        <th>Activ?</th>
+                        <th>Vizualizări</th>
+                        <th>Accesări</th>
+                        <th>Acțiuni</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for ad in ads %}
+                        <tr>
+                            <td>{{ ad.id }}</td>
+                            <td>
+                                <a href="{{ path('panel_ad_view', {'uuid': ad.uuid}) }}">
+                                    {{ ad.title }}
+                                </a>
+                            </td>
+                            <td>{{ ad_position(ad.position) }}</td>
+                            <td>{{ ad_status(ad.addedAt, ad.expiredAt) }}</td>
+                            <td>{{ ad.views }}</td>
+                            <td>{{ ad.clicks }}</td>
+                            <td>
+                                <a class="btn btn-default" href="{{ path('panel_ad_view', { 'uuid': ad.uuid }) }}">
+                                    <i class="fa fa-info"></i>
+                                </a>
+                                <a class="btn btn-primary" href="{{ path('panel_ad_edit', { 'uuid': ad.uuid }) }}">
+                                    <i class="fa fa-edit"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="8" class="danger">
+                                Momentan nu există nicio reclamă afișată pe site!
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="panel-footer">
+                {% if ads.havetoPaginate is defined and ads.haveToPaginate %}
+                    <div class="pagination pagination-lg pull-right">
+                        {{ pagerfanta(ads, 'twitter_bootstrap3_translated', {routeName: 'panel_ad_index_paginated'}) }}
+                    </div>
+                {% endif %}
+            </div>
+
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+ROOT_PATH=$(dirname $(dirname $(realpath $0)))
+
+source "${ROOT_PATH}/.env"
+
+SYMFONY_ENV=${APP_ENV}
+
+if [[ ${APP_ENV} == 'dev' ]]; then
+    SYMFONY_DEBUG=true
+else
+    SYMFONY_DEBUG=0
+fi
+
+SYMFONY_ENV=${SYMFONY_ENV} SYMFONY_DEBUG=${SYMFONY_DEBUG} ${ROOT_PATH}/bin/console.php --env=${SYMFONY_ENV} $@
+exit $?

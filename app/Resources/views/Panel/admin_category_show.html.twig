@@ -1,0 +1,67 @@
+{% extends '::panel.html.twig' %}
+
+{% set page_name = 'Informații categorie' %}
+
+{% block title %}
+    {{ page_name }} : Panou Administrator
+{% endblock %}
+
+{% block body_title %}
+    <h1>{{ page_name }}</h1>
+{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="panel panel-default">
+            <div class="panel-heading"></div>
+
+            <div class="panel-body">
+                    <table class="table table-responsive table-bordered">
+                    <tbody>
+                        <tr>
+                            <th>ID</th>
+                            <td>{{ category.id }}</td>
+                        </tr>
+                        <tr>
+                            <th>Nume</th>
+                            <td>{{ category.name }}</td>
+                        </tr>
+                        <tr>
+                            <th>Părinte</th>
+                            <td>
+                                {% if category.parent is not null %}
+                                    {{ category.parent.name }}
+                                {% else %}
+                                    Fără părinte
+                                {% endif %}
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Slug</th>
+                            <td>{{ category.slug }}</td>
+                        </tr>
+                        <tr>
+                            <th>Poziție</th>
+                            <td>
+                                {{ get_category_position(category.position) }} ({{ category.position }})
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Vizibil public?</th>
+                            <td>
+                                {% if category.isActive %} Da {% else %} Nu {% endif %}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="panel-footer">
+                <div class="btn-group">
+                    <a href="{{ path('panel_category_index') }}" class="btn btn-default">Înapoi la listă</a>
+                    <a href="{{ path('panel_category_edit', { 'id': category.id }) }}" class="btn btn-primary">Modifică</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

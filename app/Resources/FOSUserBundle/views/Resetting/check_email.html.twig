@@ -1,0 +1,14 @@
+{% trans_default_domain 'FOSUserBundle' %}
+{% extends "::platform.html.twig" %}
+
+{% block title %}Panou utilizator &mdash; {% endblock %}
+
+{% block body_title %}
+	<h1>Resetare parolă - Pasul 2</h1>
+{% endblock %}
+
+{% block body %}
+	<p>
+		{{ 'resetting.check_email'|trans({'%tokenLifetime%': tokenLifetime})|nl2br }}
+	</p>
+{% endblock %}

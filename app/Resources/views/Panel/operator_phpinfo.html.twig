@@ -1,0 +1,34 @@
+{% extends "::panel.html.twig" %}
+
+{% set page_name = 'Informații PHP' %}
+
+{% block title %}
+	{{ page_name }} : Panou Operator
+{% endblock %}
+
+{% block body_title %}
+	<h1 class="page-header">{{ page_name }}</h1>
+{% endblock %}
+
+{% block body %}
+	<div class="row">
+		<div class="col-md-4">
+			{{ info_general|raw }}
+		</div>
+		<div class="col-md-4">
+			{{ info_configs|raw }}
+		</div>
+		<div class="col-md-4">
+			{{ info_modules|raw }}
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-6">
+			{{ info_env|raw }}
+		</div>
+		<div class="col-md-6">
+			{{ info_var|raw }}
+		</div>
+	</div>
+{% endblock %}

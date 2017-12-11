@@ -1,0 +1,10 @@
+{% set article_right_1 = ad('article_right_1') %}
+{% if article_right_1 is not empty %}
+    {% for ad in article_right_1 %}
+        <div class="announcement announcement__article announcement__article--right">
+            <a href="{{ url('ad_redirect', { 'uuid': ad.uuid }) }}">
+                <img src="{{ ad.image }}" title="{{ ad.title }}">
+            </a>
+        </div>
+    {% endfor %}
+{% endif %}

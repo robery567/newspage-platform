@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ro-RO">
+<head>
+    <title>Eroare 404 &mdash; Pagină negăsită &mdash; {{ site_name }}</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0">
+
+    <link type="image/ico" href="{{ asset('assets/favicon.ico') }}" rel="shortcut icon">
+	<link type="text/css" href="{{ asset('assets/css/error.css') }}" rel="stylesheet">
+</head>
+
+<body>
+	<div id="site" class="error">
+		<div id="head">
+			<h1><a href="{{ path('main_index') }}" title="Înapoi la prima pagină">Bistriteanul</a></h1>
+		</div>
+
+		<div id="main">
+			<div id="content">
+				<div id="navigation" class="colum_c">
+					<h2>Meniu</h2>
+					<ul>
+						<li>
+							<a href="{{ path('main_index') }}">Prima pagină</a>
+						</li>
+					</ul>
+					<a id="toggle_navigation" href="#" onclick="jQuery('#navigation ul').toggle(); return false;"><span></span></a>
+				</div>
+
+				<h2>Content</h2>
+				<div id="error_video">
+					<video poster="{{ asset('error/error.jpg') }}" autoplay loop>
+						<source src="{{ asset('error/error.mp4') }}" type="video/mp4">
+						<source src="{{ asset('error/error.ogv') }}" type="video/ogg">
+						<source src="{{ asset('error/error.webm') }}" type="video/webm">
+					</video>
+
+					<div class="colum_c">
+						<h3>ne uitam dupa pagina... dar n-o putem gasi...</h3>
+					</div>
+				</div>
+
+				<div id="colum_i"></div>
+				<div class="clear"></div>
+			</div>
+		</div>
+
+		<div id="footer">
+			<div class="container">
+				<footer>
+					<ul>
+						<li>
+							<a href="{{ path('main_index') }}">Prima pagină</a>
+						</li>
+					</ul>
+				</footer>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

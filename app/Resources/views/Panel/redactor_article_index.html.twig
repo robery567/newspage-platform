@@ -1,0 +1,83 @@
+{% extends '::panel.html.twig' %}
+
+{% set page_name = 'Listare articole' %}
+
+{% block title %}
+    {{ page_name }} : Panou Redactor
+{% endblock %}
+
+{% block body_title %}
+    <h1>{{ page_name }}</h1>
+{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <i class="fa fa-list-ol"></i> Listare articole
+                <div class="pull-right">
+                    <div class="btn-group">
+                        <div class="btn-group">
+                            <a href="{{ path('panel_article_new') }}" class="btn btn-primary">
+                                Scrie articol nou!
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+
+            <div class="panel-body">
+                <table class="table table-responsive table-striped">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Titlu</th>
+                        <th>Categorie</th>
+                        <th>Data adăugării</th>
+                        <th>Data actualizării</th>
+                        <th>Acțiuni</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for article in articles %}
+                        <tr>
+                            <td>{{ article.id }}</td>
+                            <td><a href="{{ path('panel_article_show', { 'id': article.id }) }}">{{ article.title }}</a>
+                            </td>
+                            <td>{{ article.category.name }}</td>
+                            <td>{% if article.addedAt %}{{ article.addedAt|date(config('platform.default_date_format')) }}{% endif %}</td>
+                            <td>{% if article.updatedAt %}{{ article.updatedAt|date(config('platform.default_date_format')) }}{% endif %}</td>
+                            <td>
+                                <a class="btn btn-default"
+                                   href="{{ path('panel_article_show', { 'id': article.id }) }}">
+                                    <i class="fa fa-info"></i>
+                                </a>
+                                <a class="btn btn-primary"
+                                   href="{{ path('panel_article_edit', { 'id': article.id }) }}">
+                                    <i class="fa fa-edit"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="6" class="alert-warning">
+                                Momentan, nu există niciun articol care să îndeplinească acest criteriu!
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="panel-footer">
+                {% if articles.havetoPaginate is defined and articles.haveToPaginate %}
+                    <div class="pagination pagination-lg pull-right">
+                        {{ pagerfanta(articles, 'twitter_bootstrap3_translated', {routeName: 'panel_article_index_paginated'}) }}
+                    </div>
+                {% endif %}
+            </div>
+
+        </div>
+    </div>
+{% endblock %}

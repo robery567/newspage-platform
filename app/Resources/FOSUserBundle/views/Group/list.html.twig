@@ -1,0 +1,88 @@
+{% trans_default_domain 'FOSUserBundle' %}
+{% extends "::panel.html.twig" %}
+
+{% set page_name = 'Prima pagină' %}
+
+{% block title %}
+	{{ page_name }} : Panou Administrator
+{% endblock %}
+
+{% block body_title %}
+	<h1 class="page-header">{{ page_name }}</h1>
+{% endblock %}
+
+{% block body %}
+	<div class="row">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <i class="fa fa-list-ol"></i> Listare grupuri
+                <div class="pull-right">
+                    <div class="btn-group">
+                        <div class="btn-group">
+                            <a href="{{ path('fos_user_group_new') }}" class="btn btn-primary">Adaugă un grup nou!</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+
+            <div class="panel-body">
+                <table id="dt-categories" class="table table-responsive table-striped">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Nume</th>
+                            <th>Roluri</th>
+                            <th>Acțiuni</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+	                    {% for group in groups %}
+		                    <tr>
+			                    <td>{{ group.id }}</td>
+			                    <td>
+				                    <a href="{{ path('fos_user_group_show', {'groupName': group.getName()}) }}">
+					                    {{ group.getName() }}
+				                    </a>
+			                    </td>
+			                    <td>{{ role_list(group.getRoles()) }}</td>
+			                    {#<td>{{ role.role }}</td>#}
+			                    <td>
+				                    <div class="btn-group">
+                                    <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
+                                        Alege acțiunea...
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu pull-right" role="menu">
+                                        <li>
+                                            <a href="{{ path('fos_user_group_show', { 'groupName': group.getName() }) }}">
+                                                <i class="fa fa-info"></i> informații
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ path('fos_user_group_edit', { 'groupName': group.getName() }) }}">
+	                                            <i class="fa fa-edit"></i> modifică
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ path('fos_user_group_delete', { 'groupName': group.getName() }) }}">
+	                                            <i class="fa fa-trash"></i> șterge
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+			                    </td>
+		                    </tr>
+	                    {% else %}
+		                    <tr>
+			                    <td colspan="8" class="danger">
+				                    Momentan nu există niciun grup pentru site!
+			                    </td>
+		                    </tr>
+	                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}

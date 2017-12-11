@@ -1,0 +1,71 @@
+{% extends '::panel.html.twig' %}
+
+{% set page_name = 'Statistici articole' %}
+
+{% block title %}
+    {{ page_name }} : Panou Statistici
+{% endblock %}
+
+{% block body_title %}
+    <h1>{{ page_name }}</h1>
+{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-md-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Grafic statistici
+                </div>
+
+                <div class="panel-body">
+                    <div id="stats-articles-yearly"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Numere
+                </div>
+
+                <div class="panel-body">
+                    <table class="table table-bordered table-responsive">
+                        <tbody>
+                            <tr>
+                                <th>Numărul minim de articole:</th>
+                                <td>{{ data_min_articles.value }}, în {{ data_min_articles.label|lower }}</td>
+                            </tr>
+                            <tr>
+                                <th>Numărul maxim de articole:</th>
+                                <td>{{ data_max_articles.value }}, în {{ data_max_articles.label|lower }}</td>
+                            </tr>
+                            <tr>
+                                <th>Numărul de articole în anul curent:</th>
+                                <td>{{ data_cur_articles }}</td>
+                            </tr>
+                            {% for year in articles_by_years %}
+                                <tr>
+                                    <th>Articole în {{ year.label|lower }}</th>
+                                    <td>{{ year.value }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script type="text/javascript">
+        Morris.Donut({
+            element: 'stats-articles-yearly',
+            data: {{ morrisjs_articles|raw }}
+        });
+    </script>
+{% endblock %}

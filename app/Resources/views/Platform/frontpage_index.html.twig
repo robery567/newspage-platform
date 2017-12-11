@@ -1,0 +1,227 @@
+{% extends "::platform.html.twig" %}
+
+{% import '_macros/article.html.twig' as macro %}
+{% import '_macros/display_news_grid.html.twig' as helper %}
+
+{% block title %}{{ news_title }} &mdash; {% endblock %}
+
+{% block body_title %}
+    <h1>{{ news_title }}</h1>
+{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="alpha">
+                <div class="collection announcement__wide">
+                    {% include ':_ads:menu_bottom_1.html.twig' %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            {# START(main_articles_listing) #}
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="alpha">
+                                {% for article in articles.hot %}
+                                    <div class="collection">
+                                        <article class="article" data-article-id="{{ article.articleId }}">
+                                            <h2 class="article__heading article__heading--hot">
+                                                {{ macro.article_url(article) }}
+                                            </h2>
+                                            <p class="article__author">{{ article.author.fullName }}</p>
+                                            {{ macro.article_timestamp(article) }}
+                                            <p class="article__summary">
+                                                {{ article.preview|raw }}
+                                            </p>
+                                            <a class="article__views">
+                                                <i class="fa fa-eye"></i> {{ article.views }} vizualizări
+                                            </a>
+                                        </article>
+                                    </div>
+                                {% endfor %}
+                            </div>
+
+                            <hr>
+
+                            <div class="alpha">
+                                {% for article in articles.ad %}
+                                    <div class="collection">
+                                        <article class="article" data-article-id="{{ article.articleId }}">
+                                            <h2 class="article__heading">
+                                                <a href="{{ url('main_article', { 'category': article.category.slug, 'slug': article.slug }) }}">
+                                                    {{ article.title }}
+                                                </a>
+                                            </h2>
+                                            <p class="article__author">{{ article.author.fullName }}</p>
+                                            {{ macro.article_timestamp(article) }}
+                                            <div class="article__summary">
+                                                {{ article.preview|raw }}
+                                            </div>
+                                            <a class="article__views">
+                                                <i class="fa fa-eye"></i> {{ article.views }} vizualizări
+                                            </a>
+                                        </article>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+
+                        <div class="col-md-8">
+                            <div class="alpha">
+                                {% if articles.announcement is not empty %}
+                                <div class="collection">
+                                    <article class="article" data-article-id="{{ articles.announcement.articleId }}">
+                                        <h2 class="article__heading article__heading--announcement">
+                                            {{ macro.article_url(articles.announcement) }}
+                                        </h2>
+                                        <img class="article__figure article__figure--announcement" src="{{ config('cdn.url') }}/thumbnail/{{ articles.announcement.articleId }}.png" onerror="this.src='https://placehold.it/512x256'">
+                                        <p class="article__author">{{ articles.announcement.author.fullName }}</p>
+                                        <div class="article__summary">
+                                            {{ articles.announcement.preview|raw }}
+                                        </div>
+                                    </article>
+                                </div>
+                                {% endif %}
+                            </div>
+                            <hr>
+                            <div class="alpha">
+                                {% include ':_ads:homepage-featured_bottom_1.html.twig' %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="row">
+                        <div class="col-md-6">
+                            {% for article in articles.recommended.left %}
+                                <div class="collection">
+                                    <article class="article" data-article-id="{{ article.articleId }}">
+                                        <img class="article__figure" src="{{ config('cdn.url') }}/thumbnail/{{ article.articleId }}.png" onerror="this.src='https://placehold.it/512x256'">
+                                        <a href="{{ url('main_article', { 'category': article.category.slug, 'slug': article.slug }) }}">
+                                            <h2 class="article__heading article__heading--recommended">
+                                                {{ article.title|truncate(32, true) }}
+                                            </h2>
+                                        </a>
+                                        <p class="article__author">{{ article.author.fullName }}</p>
+                                        <div class="article__summary">
+                                            {{ article.preview|replace({'<p>':''})|truncate(256, true)|raw }}
+                                        </div>
+                                    </article>
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <div class="col-md-6">
+                            {% for article in articles.recommended.right %}
+                                <div class="collection">
+                                    <article class="article" data-article-id="{{ article.articleId }}">
+                                        <img class="article__figure" src="{{ config('cdn.url') }}/thumbnail/{{ article.articleId }}.png" onerror="this.src='https://placehold.it/512x256'">
+                                        <a href="{{ url('main_article', { 'category': article.category.slug, 'slug': article.slug }) }}">
+                                            <h2 class="article__heading article__heading--recommended">
+                                                {{ article.title|truncate(32, true) }}
+                                            </h2>
+                                        </a>
+                                        <p class="article__author">{{ article.author.fullName }}</p>
+                                        <div class="article__summary">
+                                            {{ article.preview|replace({'<p>':''})|truncate(256, true)|raw }}
+                                        </div>
+                                    </article>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="news news--latest">
+                                <div class="alpha alpha--latest">
+                                    {% for article in articles.latest %}
+                                        <div class="collection collection--latest">
+                                            <a href="{{ url('main_article', { 'category': article.category.slug, 'slug': article.slug }) }}">
+                                                <article class="article article--latest" data-article-id="{{ article.articleId }}">
+                                                    <div class="article__meta">
+                                                        <time class="article__timestamp article__timestamp--latest timeago" datetime="{{ article.addedAt|date('Y-m-d\TH:i:sO') }}" title="{{ article.addedAt|date(config('platform.default_date_format')) }}">
+                                                            {{ article.addedAt|date(config('platform.default_date_format')) }}
+                                                        </time>
+                                                        <br>
+                                                        <img src="{{ config('cdn.url') }}/thumbnail/{{ article.articleId }}.png" onerror="this.src='https://placehold.it/512x256'" class="article__figure article__figure--latest">
+                                                    </div>
+                                                    <div class="article__summary article__summary--latest">
+                                                        {{ article.preview|raw }}
+                                                    </div>
+                                                    <div class="clearfix"></div>
+                                                </article>
+                                            </a>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {# START(main_articles_listing) #}
+
+            {# START(one_article_from_six_categories) #}
+            {% if categories.headline is not empty %}
+                <hr>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="row">
+                            {% for category in categories.headline %}
+                                <div class="col-md-2">
+                                    {{ article_from_category(category.id)|raw }}
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                <hr>
+            {% endif %}
+            {# END(one_article_from_six_categories) #}
+            {% include ':_ads:homepage-video_top_1.html.twig' %}
+            {# START(video_articles) #}
+            {% if articles.video is not empty %}
+                <hr>
+                <div class="row">
+                    <div class="col-md-9">
+                        <h2>{{ articles.video.first.title }}</h2>
+                        <video id="my-video" class="video-js" controls preload="auto" data-setup="{}" data-article-id="{{ articles.video.first.articleId }}" width="100%" height="auto">
+                            <source src="{{ articles.video.first.media }}" type="video/mp4">
+                            <p class="vjs-no-js">
+                                Pentru a putea vedea acest video, vă rugăm să activați JavaScript sau schimbați browser-ul
+                                cu unul care suportă tag-ul HTML5 <a href="http://videojs.com/html5-video-support/" target="_blank">video</a>.
+                            </p>
+                        </video>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="list-group news--video">
+                            {% for article in articles.video.rest if articles.video.rest is not empty %}
+                                <div class="list-group-item" data-article-id="{{ article.articleId }}">
+                                    <h4><a href="{{ path('main_video', { videoId: article.articleId }) }}">{{ article.title|truncate(30) }}</a></h4>
+                                    <video id="video{{ loop.index }}" class="video-js" controls preload="auto" data-setup="{}" width="100%" height="auto">
+                                        <source src="{{ article.media }}" type="video/mp4"  style="display: none;">
+                                        <p class="vjs-no-js" style="display: none;">
+                                            Pentru a putea vedea acest video, vă rugăm să activați JavaScript sau schimbați browser-ul
+                                            cu unul care suportă tag-ul HTML5 <a href="http://videojs.com/html5-video-support/" target="_blank">video</a>.
+                                        </p>
+                                    </video>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+            {# END(video_articles) #}
+            {% include ':_ads:homepage-video_bottom_1.html.twig' %}
+            <hr>
+            {# START(one_each_category) #}
+            {{ helper.render_news(categories.all, 3)|raw }}
+            {# END(one_each_category) #}
+        </div>
+    </div>
+{% endblock %}

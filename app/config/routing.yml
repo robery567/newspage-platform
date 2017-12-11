@@ -1,0 +1,37 @@
+# SysOp Matcher
+_wdt:
+    resource: '@WebProfilerBundle/Resources/config/routing/wdt.xml'
+    prefix: /debug/_wdt
+
+_profiler:
+    resource: '@WebProfilerBundle/Resources/config/routing/profiler.xml'
+    prefix: /debug/_profiler
+
+# app/config/routing.yml
+app:
+    resource: '@AppBundle/Controller/'
+    type: annotation
+
+panel:
+    resource: '@AppBundle/Controller/Panel/'
+    type: annotation
+    prefix: /panou
+
+hwi_oauth_redirect:
+    resource: "routing/hwiob_redirect.xml"
+    prefix:   /panou/cont/conectare
+
+hwi_oauth_connect:
+    resource: "routing/hwiob_connect.xml"
+    prefix:   /panou/cont/conectare
+
+hwi_oauth_login:
+    resource: "routing/hwiob_login.xml"
+    prefix:   /panou/cont/conectare
+
+facebook_login:
+    path: /panou/cont/conectare/verificare/facebook
+
+fos_user:
+    resource: 'routing/fosub_all.xml'
+    prefix: /panou/cont

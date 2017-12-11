@@ -1,0 +1,60 @@
+{% macro display_news(articles_set) %}
+	<div class="main_content">
+        <div class="block_posts type_1 type_sort">
+            <div class="posts">
+                {% for article in articles_set %}
+	                <article class="post_type_1" data-article-id="{{ article.articleId }}">
+                        {% if article.media is not empty %}
+	                        <div class="feature">
+                                <div class="image">
+                                    <a href="{{ path('main_article', {
+	                                    'category': article.category.slug,
+	                                    'slug': article.slug
+                                    }) }}">
+                                        <span class="hover"></span>
+                                    </a>
+                                </div>
+                            </div>
+                        {% endif %}
+
+		                <div class="content">
+                            <div class="info">
+                                <div class="tags">
+                                    Categorie:
+                                    <a href="{{ path('main_category', {
+	                                    'category': article.category.slug
+                                    }) }}">
+                                        {{ article.category.name }}
+                                    </a>
+                                </div>
+                                <div class="date">{{ article.addedAt|date(config('platform.default_date_format')) }}</div>
+                                <div class="stats">
+                                    <div class="likes">15</div>
+                                    <div class="comments">7</div>
+                                </div>
+                            </div>
+
+                            <div class="title">
+                                <a href="{{ path('main_article', {
+                                    'category': article.category.slug,
+                                    'slug': article.slug
+                                }) }}">
+                                    {% if article.isHot %}
+                                        <span>{{ 'hot news!!'|upper }}</span>
+                                    {% endif %}
+	                                {{ article.title }}
+                                </a>
+                            </div>
+                        </div>
+                    </article>
+                {% else %}
+                    <article>
+                        <div class="alert alert-danger">
+                            <strong>Ups!</strong> Momentan, nu există nicio știre ce îndeplinește criteriile menționate!
+                        </div>
+                    </article>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endmacro %}

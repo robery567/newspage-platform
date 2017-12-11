@@ -1,0 +1,11 @@
+{% extends '::rss.xml.twig' %}
+
+{% block feed %}
+	{% for feed in feeds %}
+		<item>
+			<title>{{ feed.title }}</title>
+			<description>{{ feed.preview }}</description>
+			<link>{{ url('main_article', {'category': feed.category.slug, 'slug': feed.slug}) }}</link>
+		</item>
+	{% endfor %}
+{% endblock %}

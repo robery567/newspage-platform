@@ -1,0 +1,72 @@
+{% extends '::panel.html.twig' %}
+
+{% set page_name = 'Listare categorii' %}
+
+{% block title %}
+    {{ page_name }} : Panou Administrator
+{% endblock %}
+
+{% block body_title %}
+    <h1>{{ page_name }}</h1>
+{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <i class="fa fa-list-ol"></i> Listare categorii
+                <div class="pull-right">
+                    <div class="btn-group">
+                        <div class="btn-group">
+                            <a href="{{ path('panel_category_new') }}" class="btn btn-primary">Adaugă o categorie
+                                nouă!</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+
+            <div class="panel-body">
+                <table id="dt-categories" class="table table-responsive table-striped">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Nume</th>
+                        <th>Poziție</th>
+                        <th>Activ?</th>
+                        <th>Acțiuni</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for category in categories %}
+                        <tr>
+                            <td>{{ category.id }}</td>
+                            <td>
+                                <a href="{{ path('panel_category_show', { 'id': category.id }) }}">{{ category.name }}</a>
+                            </td>
+                            <td>{{ category.position }}</td>
+                            <td>
+                                {% if category.isActive %}
+                                    <i class="fa fa-check"></i> Da
+                                {% else %}
+                                    <i class="fa fa-times"></i> Nu
+                                {% endif %}
+                            </td>
+                            <td>
+                                <a class="btn btn-default"
+                                   href="{{ path('panel_category_show', { 'id': category.id }) }}">
+                                    <i class="fa fa-info"></i>
+                                </a>
+                                <a class="btn btn-primary"
+                                   href="{{ path('panel_category_edit', { 'id': category.id }) }}">
+                                    <i class="fa fa-edit"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}

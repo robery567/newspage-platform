@@ -1,0 +1,11 @@
+{% macro article_url(article) %}
+    <a href="{{ url('main_article', { 'category': article.category.slug, 'slug': article.slug }) }}">
+        {{ article.title|remove_accents }}
+    </a>
+{% endmacro %}
+
+{% macro article_timestamp(article) %}
+    <time class="article__timestamp timeago" datetime="{{ article.addedAt|date('Y-m-d\TH:i:sO') }}">
+        {{ article.addedAt|date(config('platform.default_date_format')) }}
+    </time>
+{% endmacro %}

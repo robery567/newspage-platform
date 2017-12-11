@@ -1,0 +1,35 @@
+{% extends '::panel.html.twig' %}
+
+{% set page_name = 'Actualizare informații utilizator' %}
+
+{% block title %}
+	{{ page_name }} : Panou Administrator
+{% endblock %}
+
+{% block body_title %}
+    <h1>{{ page_name }}</h1>
+{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="panel panel-primary">
+            <div class="panel-heading"></div>
+
+            <div class="panel-body">
+                {{ form_start(edit_form) }}
+	            {{ form_widget(edit_form) }}
+                <input type="submit" value="Actualizează" class="btn btn-primary">
+	            {{ form_end(edit_form) }}
+            </div>
+
+            <div class="panel-footer">
+                <a href="{{ path('panel_user_index') }}" class="btn btn-default">
+                    <i class="fa fa-arrow-left"></i> Înapoi la listă
+                </a>
+                {{ form_start(delete_form) }}
+                <input type="submit" value="Șterge" class="btn btn-danger">
+                {{ form_end(delete_form) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

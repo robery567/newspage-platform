@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="ro-RO">
+
+<head>
+    <title>
+        {% if app.environment == 'dev' %}
+            [DEVELOPMENT]
+        {% endif %}
+        {% block title %}{% endblock %} {{ site_name }}
+    </title>
+
+    <meta name="keywords" content="{{ config('platform.meta_keywords') }}">
+    <meta name="description" content="{{ config('platform.meta_description') }}">
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <meta name="language" content="ro">
+    <meta name="ROBOTS" content="index, follow">
+    <meta name="rating" content="general">
+    <meta name="distribution" content="global">
+    <meta name="revisit-after" content="1 Days">
+
+    {# TODO: use SEO bundle for this part, write TwigExtension to get them from database #}
+    {% set gwt_id = config('seo.gwt_id') %}
+    {% set alexa_id = config('seo.alexa_id') %}
+    {% set yahoo_id = config('seo.yahoo_id') %}
+
+    {% if (gwt_id is defined) and (gwt_id is not empty) %}
+        <meta name="verify-v1" content="{{ gwt_id }}">
+    {% endif %}
+
+    {% if (alexa_id is defined) and (alexa_id is not empty) %}
+        <meta name="alexaVerifyID" content="{{ alexa_id }}">
+    {% endif %}
+
+    {% if (yahoo_id is defined) and (yahoo_id is not empty) %}
+        <meta name="y_key" content="{{ yahoo_id }}">
+    {% endif %}
+
+    {% block article_meta %}{% endblock %}
+
+    <link rel="shortcut icon" href="{{ asset('static/favicon.ico') }}" type="image/x-icon">
+    <link rel="icon" href="{{ asset('static/favicon.ico') }}" type="image/x-icon">
+
+    {% block stylesheets %}
+        <link rel="stylesheet" href="{{ asset('static/css/platform.css') }}" type="text/css">
+    {% endblock %}
+
+    {# These JS are for analytics n stuff like that. #}
+    {# TODO: load analytics code from database? #}
+    <script type="text/javascript">
+        var FacebookSDK = {
+            __load__: function() {
+                return (function(d, s, id) {
+                    var js, fjs = d.getElementsByTagName(s)[0];
+                    if (d.getElementById(id)) {
+                        return;
+                    }
+
+                    js = d.createElement(s);
+                    js.id = id;
+                    js.src = '//connect.facebook.net/ro_RO/sdk.js';
+                    fjs.parentNode.insertBefore(js, fjs);
+                })(document, 'script', 'facebook-jssdk');
+            },
+            __init__: function(SDKSettings) {
+                this.__load__();
+
+                window.fbAsyncInit = function () {
+                    FB.init(SDKSettings);
+                };
+            }
+        };
+
+        var GoogleAnalytics = {
+            __load__: function() {
+                return (function (i, s, o, g, r, a, m) {
+                    i['GoogleAnalyticsObject'] = r;
+                    i[r] = i[r] || function () {
+                        (i[r].q = i[r].q || []).push(arguments);
+                    };
+
+                    i[r].l = 1 * new Date();
+                    a = s.createElement(o);
+                    m = s.getElementsByTagName(o)[0];
+                    a.async = 1;
+                    a.src = g;
+                    m.parentNode.insertBefore(a, m);
+                })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+            },
+            __init__: function(UA) {
+                this.__load__();
+
+                ga('create', UA, 'auto');
+                ga('send', 'pageview');
+            }
+        };
+
+        GoogleAnalytics.__init__({{ config('google_analytics.ua')|raw }});
+        FacebookSDK.__init__({
+            appId            : {{ config('facebook_sdk.app_id')|raw }},
+            autoLogAppEvents : true,
+            xfbml            : true,
+            version          : 'v2.10'
+        });
+    </script>
+</head>
+
+<body class="sticky_footer" data-page="{{ app.request.get('_route') }}">
+<div id="fb-root"></div>
+
+<div class="wrapper">
+    <header>
+        <div id="header">
+            <section class="navbar navbar-fixed-top navbar-inverse">
+                <div class="container">
+                    {% include '_partials/platform/toolbar_panel.html.twig' %}
+                </div>
+            </section>
+
+            <section class="middle">
+                <div class="container masthead">
+                    {# TODO: add a switch in Panel to display ads? #}
+                    <div class="announcement__header-container">
+                        {% include ':_ads:header_left_1.html.twig' %}
+                        {% include ':_ads:header_right_1.html.twig' %}
+                    </div>
+                    <div id="logo" class="masthead__logo">
+                        <a href="{{ path('main_index') }}" id="site-logo" title="Prima pagină"></a>
+                    </div>
+                    <div class="masthead__widget">
+                        <ul>
+                            <li id="datetime"></li>
+                            <li id="weather"></li>
+                            <li id="currency"></li>
+                            <li id="visitors"></li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section class="bottom">
+                <div class="container">
+                    {% include '_partials/platform/toolbar_menu.html.twig' %}
+                </div>
+            </section>
+        </div>
+    </header>
+
+    <div class="container container--with-padding">
+        {% block body %}{% endblock %}
+    </div>
+
+    <footer>
+        <div id="footer">
+            <section class="top">
+                <div class="block_footer_widgets">
+                    <div class="container">
+                        {{ platform_footer_categories()|raw }}
+                    </div>
+                </div>
+            </section>
+
+            <section class="middle">
+                <div class="container">
+                    <div class="block_bottom_menu">
+                        <nav>
+                            <ul>
+                                <!-- START(mxhost.ro) -->
+                                <li>
+                                    <a id="generate-logo-mxhost" href="http://www.mxhost.ro" title="MxHost.ro" target="_blank"></a>
+                                </li>
+                                <!-- END(mxhost.ro) -->
+                                <!-- START(rss) -->
+                                <li>
+                                    <a id="generate-logo-rss" title="{{ site_name }} RSS" href="{{ path('main_index_rss') }}"></a>
+                                </li>
+                                <!-- END(rss) -->
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </section>
+
+            <section class="bottom">
+                <div class="container">
+                    <div class="block_copyrights">
+                        <p>
+                            Copyright &copy;, {{ 'now'|date('Y') }}.<br>
+                            Powered by <a href="#">Newspage Platform</a> project.
+                        </p>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </footer>
+</div>
+
+{% block javascripts %}
+    <script type="text/javascript" src="{{ asset('static/manifest.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('static/js/common.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('static/js/platform.js') }}"></script>
+
+	{# html5shiv && respond.js #}
+    {# TODO: use the npm package #}
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+{% endblock %}
+
+
+</body>
+
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="robots" content="noindex">
+	<title>
+        {% if app.environment == 'dev' %}
+	        [DEVELOPMENT]
+        {% endif %}
+		Conectare &mdash; {{ site_name }}
+	</title>
+
+	<link rel="stylesheet" href="{{ asset('static/css/login.css') }}" type="text/css">
+</head>
+<body>
+	<div id="fb-root"></div>
+
+	<div class="pen-title">
+		<h1>{{ site_name }}</h1>
+	</div>
+
+	<a href="{{ path('main_index') }}" class="btn btn-default left-link">
+		<i class="fa fa-chevron-left"></i> Înapoi la prima pagină
+	</a>
+
+	<div class="module form-module">
+		{% block module_error %}{% endblock %}
+
+		<div class="form">
+			<h2>{% block module_title %}{% endblock %}</h2>
+
+			{% block module_form %}{% endblock %}
+		</div>
+
+		<div class="cta">
+			{% block module_buttons %}{% endblock %}
+		</div>
+	</div>
+
+	<script type="text/javascript" src="{{ asset('static/manifest.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('static/js/common.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('static/js/login.js') }}"></script>
+</body>
+</html>

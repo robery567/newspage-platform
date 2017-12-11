@@ -1,0 +1,66 @@
+{% macro render_news(articles, columns) %}
+    {% set columns = columns|default(3) %}
+    {% set rowCounter = 1 %}
+    {% set dataCounter = 0 %}
+    {% set newRow = true %}
+
+    {% set btCols = (12 / columns)|round(0, 'ceil') %}
+
+    {% for article in articles %}
+        {% if newRow %}
+            <div class="row box">
+            {% set newRow = false %}
+        {% endif %}
+
+        <div class="col-md-{{ btCols }}">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <a href="{{ path('main_category', { 'category': article.category.slug }) }}">{{ article.category.name }}</a>
+                </div>
+                <div class="panel-body">
+                    <div class="block_posts type_1 type_sort">
+                        <div class="posts">
+                            <article class="post_type_1" data-article-id="{{ article.articleId }}">
+                                <div class="feature">
+                                    <div class="image">
+                                        <a href="{{ path('main_article', { 'category': article.category.slug, 'slug': article.slug }) }}">
+                                            <img src="{{ config('cdn.url')|raw }}/thumbnail/{{ article.articleId }}.png" onerror="this.src='https://placehold.it/512x256'">
+                                            <span class="hover"></span>
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <div class="content">
+                                    <div class="info">
+                                        <div class="tags">
+                                            Categorie: <a href="{{ path('main_category', { 'category': article.category.slug }) }}">{{ article.category.name }}</a>
+                                        </div>
+                                        <div class="date">
+                                            Data și ora: <time class="timeago" datetime="{{ article.addedAt|date('Y-m-d\TH:i:sO') }}">{{ article.addedAt|date(config('platform.default_date_format')) }}</time>
+                                        </div>
+                                        <div class="stats">
+                                            <div class="likes">{{ article.views }}</div>
+                                        </div>
+                                    </div>
+                                    <div class="title">
+                                        <a href="{{ path('main_article', { 'category': article.category.slug, 'slug': article.slug }) }}">
+                                            {{ article.title }}
+                                        </a>
+                                    </div>
+                                </div>
+                            </article>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% if (rowCounter / columns) == 1 or (rowCounter % columns) == 0 or (articles|length - dataCounter) < columns %}
+            </div>
+            {% set newRow = true %}
+        {% endif %}
+
+        {% set rowCounter = rowCounter + 1 %}
+        {% set dataCounter = dataCounter + 1 %}
+    {% endfor %}
+{% endmacro %}

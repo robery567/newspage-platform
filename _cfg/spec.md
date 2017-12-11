@@ -1,0 +1,38 @@
+# Deployment
+
+Recommended configuration (used on demo server):
+- OS: Debian 9:
+    - [ ] libxml 2.6.21 or newer
+    - [ ] icu 4 or newer
+    - [ ] apc 3.0.17 or newer
+- Web server: Nginx 1.10:
+    - [ ] ngx_http_rewrite_module
+    - [ ] ngx_http_headers_module
+- Storage: MariaDB 10.2:
+    - [ ] utf8mb4 support (should be installed by default)
+    - [ ] innodb storage engine
+- Language: PHP 7.1.3 or newer (preferably latest):
+    - [ ] pdo + pdo_mysql
+    - [ ] json
+    - [ ] ctype
+    - [ ] php-xml
+    - [ ] php tokenizer enabled
+    - [ ] mbstring
+    - [ ] iconv
+    - [ ] posix
+    - [ ] intl
+    - [ ] redis
+- Cache: Redis 4 (requires manual compilation):
+    - [ ] be root: `su - root`
+    - [ ] update packages: `apt update; apt upgrade -y`
+    - [ ] install build tools: `apt install -y build-essential`
+    - [ ] install tcl: `apt install -y tcl8.6`
+    - [ ] download redis tarball: `wget http://download.redis.io/releases/redis-stable.tar.gz`
+    - [ ] extract: `tar xzf redis-stable.tar.xz; cd redis-stable`
+    - [ ] do the compile: `make`
+    - [ ] test if anything is fine: `make test`
+    - [ ] install: `make install`
+    - [ ] install daemon: `./utils/install_server.sh`
+    - [ ] check the service: `systemctl status redis_6379`
+    - [ ] secure redis: `vi /etc/redis/6379.conf`, search `# bind 127.0.0.1 ::1` and replace with `bind 127.0.0.1 ::1`
+    - [ ] reload redis service: `systemctl stop redis_6379; systemctl start redis_6379`

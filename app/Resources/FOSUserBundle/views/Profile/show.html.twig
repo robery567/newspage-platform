@@ -1,0 +1,53 @@
+{% trans_default_domain 'FOSUserBundle' %}
+{% extends "::platform.html.twig" %}
+
+{% block title %}Panou utilizator &mdash; {% endblock %}
+
+{% block body_title %}
+	<h1>Profilul meu</h1>
+{% endblock %}
+
+{% block body %}
+	<div class="row">
+        <div class="panel panel-default">
+            <div class="panel-heading"></div>
+
+            <div class="panel-body">
+                <table class="table table-responsive table-bordered">
+                    <tbody>
+                        <tr>
+                            <th>Nume de utilizator:</th>
+                            <td>{{ user.username }}</td>
+                        </tr>
+                        <tr>
+                            <th>Adresa de e-mail:</th>
+                            <td>{{ user.email }}</td>
+                        </tr>
+                        <tr>
+                            <th>Nume complet:</th>
+                            <td>{{ user.fullName }}</td>
+                        </tr>
+	                    <tr>
+		                    <th>Conectat cu:</th>
+		                    <td>
+			                    {% if user.facebookId %}
+				                    <a class="btn sharer-facebook">
+					                    <i class="fa fa-facebook"></i> Facebook
+				                    </a>
+			                    {% else %}
+				                    Cont bistriteanul.ro
+			                    {% endif %}
+		                    </td>
+	                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="panel-footer">
+                <div class="btn-group">
+                    <a href="{{ path('fos_user_profile_edit') }}" class="btn btn-default">Actualizare profil</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

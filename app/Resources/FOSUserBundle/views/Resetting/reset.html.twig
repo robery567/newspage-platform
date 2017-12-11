@@ -1,0 +1,15 @@
+{% trans_default_domain 'FOSUserBundle' %}
+{% extends "::login.html.twig" %}
+
+{% block title %}Panou utilizator &mdash; {% endblock %}
+
+{% block body_title %}
+	<h1>Resetare parolă - Pasul 3</h1>
+{% endblock %}
+
+{% block body %}
+	{{ form_start(form, { 'action': path('fos_user_resetting_reset', {'token': token}), 'attr': { 'class': 'fos_user_resetting_reset' } }) }}
+	{{ form_widget(form) }}
+    <input type="submit" value="{{ 'resetting.reset.submit'|trans }}" class="btn btn-article-headline btn-lg">
+	{{ form_end(form) }}
+{% endblock %}

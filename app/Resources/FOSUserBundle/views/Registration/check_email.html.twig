@@ -1,0 +1,12 @@
+{% trans_default_domain 'FOSUserBundle' %}
+{% extends "::platform.html.twig" %}
+
+{% block title %}Panou utilizator &mdash; {% endblock %}
+
+{% block body_title %}
+    <h1>Înregistrare - Pasul 2</h1>
+{% endblock %}
+
+{% block body %}
+    <p>{{ 'registration.check_email'|trans({'%email%': user.email}) }}</p>
+{% endblock %}

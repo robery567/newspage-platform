@@ -1,0 +1,74 @@
+{% extends '::panel.html.twig' %}
+
+{% set page_name = 'Actualizare reclamă' %}
+
+{% block title %}
+	{{ page_name }} : Panou Administrator
+{% endblock %}
+
+{% block body_title %}
+	<h1>{{ page_name }}</h1>
+{% endblock %}
+
+{% block body %}
+	<div class="row">
+        <div class="col-md-8">
+            <div class="panel panel-primary">
+                <div class="panel-heading"></div>
+
+                <div class="panel-body">
+                    {{ form_start(edit_form) }}
+                    {{ form_widget(edit_form) }}
+                    <input type="submit" value="Actualizează" class="btn btn-primary">
+                    {{ form_end(edit_form) }}
+                </div>
+
+                <div class="panel-footer">
+                    <a href="{{ path('panel_ad_index') }}" class="btn btn-default">
+                        <i class="fa fa-arrow-left"></i> Înapoi la listă
+                    </a>
+                    {{ form_start(delete_form) }}
+                    <input type="submit" value="Șterge" class="btn btn-danger">
+                    {{ form_end(delete_form) }}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="panel panel-default">
+                <div class="panel-heading"></div>
+                <div class="panel-body">
+                    <h4>Upload imagine</h4>
+                    <p>
+                        Folosind formularul de mai jos, poți uploada imagini pentru reclama curentă.<br>
+                        Reguli:
+                    </p>
+                    <ol>
+                        <li>Este permisă o singură fotografie tip PNG</li>
+                        <li>
+                            Se folosește mereu ultima imagine uploadată. Adică, dacă uploadați o imagine greșită, o
+                            reuploadați, se șterge imaginea curentă și se înlocuiește cu cea nouă.
+                        </li>
+                    </ol>
+
+                    <iframe src="{{ config('api.ad_url') }}/upload/{{ edit_form.vars.value.id }}" frameborder="0"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript">
+        window.addEventListener('message',function(e) {
+            var key = e.message ? 'message' : 'data';
+            var data = e[key];
+            var cdnUrl = {{ config('cdn.url')|raw }};
+            var url = "http://"+ cdnUrl +"/ad/{{ edit_form.vars.value.uuid }}.png";
+
+            if (data === 'uploaded') {
+                document.getElementById('appbundle_ad_image').value = url;
+            }
+        }, false);
+    </script>
+{% endblock %}

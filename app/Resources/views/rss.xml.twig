@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0">
+
+	<channel>
+		{# TODO: load these info from database? #}
+		<title>Newspage Platform</title>
+		<link>{{ url('main_index') }}</link>
+		<language>ro-RO</language>
+		<description>Află primul: știri, evenimente, actualitate, monden, noutăți</description>
+		<copyright>Copyright © {{ 'now'|date('Y') }}</copyright>
+
+		{% block feed %}{% endblock %}
+	</channel>
+</rss>

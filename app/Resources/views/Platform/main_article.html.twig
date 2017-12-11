@@ -1,0 +1,254 @@
+{% extends "::platform.html.twig" %}
+
+{% block title %}{{ article.title }} &mdash; {% endblock %}
+
+{% set addedAt = article.addedAt|date(config('platform.default_date_format')) %}
+{% set updatedAt = article.updatedAt|date(config('platform.default_date_format')) %}
+
+{% set facebook_url = 'https://facebook.com/sharer/sharer.php?u=' ~ app.request.uri|url_encode %}
+{% set twitter_url = 'https://twitter.com/intent/tweet/?text=' ~ article.title|url_encode ~ '&amp;url=' ~ app.request.uri|url_encode %}
+{% set gplus_url = 'https://plus.google.com/share?url=?u=' ~ app.request.uri|url_encode %}
+{% set email_url = 'mailto:?subject=' ~ article.title|url_encode ~ '&amp;body=' ~ article.title|url_encode ~ ' ' ~ app.request.uri|url_encode %}
+{% set wapp_url = 'whatsapp://send?text=' ~ article.title|url_encode ~ ' ' ~ app.request.uri|url_encode %}
+
+{% if article.author.fullName is defined %}
+    {% set author_name = article.author.fullName %}
+{% elseif article.author.username is defined %}
+    {% set author_name = article.author.username %}
+{% else %}
+    {% set author_name = 'Redactor Bistriteanul' %}
+{% endif %}
+
+{% block body %}
+    <article data-article-id="{{ article.articleId }}">
+        <div class="block_general_title_2">
+            <h1>{{ article.title }}</h1>
+            <h2>
+                <a href="{{ path('main_category', {'category': article.category.slug}) }}" class="tags">
+                    {{ article.category.name }}
+                </a>
+                &nbsp;&nbsp;/&nbsp;&nbsp;
+                <span class="author">de <a href="#">{{ author_name }}</a></span>
+                &nbsp;&nbsp;/&nbsp;&nbsp;
+                <span class="date">{{ addedAt }}</span>
+            </h2>
+        </div>
+        <div class="row">
+            <div class="col-md-9">
+                <div class="block_content">
+                    <strong>{{ article.preview|raw }}</strong>
+                    <div class="line_1"></div>
+                    {{ article.content|raw }}
+                    <div class="line_1"></div>
+                </div>
+
+                <div id="articleGallery" class="block_content" style="display:none">
+                    <div class="h2">Galerie media</div>
+
+                    <div id="articleGalleryThumbnails" class="picture article__gallery__container" itemscope itemtype="http://schema.org/ImageGallery"></div>
+
+                    <div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+                        <div class="pswp__bg"></div>
+                        <div class="pswp__scroll-wrap">
+                            <div class="pswp__container">
+                                <div class="pswp__item"></div>
+                                <div class="pswp__item"></div>
+                                <div class="pswp__item"></div>
+                            </div>
+                            <div class="pswp__ui pswp__ui--hidden">
+                                <div class="pswp__top-bar">
+                                    <div class="pswp__counter"></div>
+                                    <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                                    <button class="pswp__button pswp__button--share" title="Share"></button>
+                                    <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                                    <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                                    <div class="pswp__preloader">
+                                        <div class="pswp__preloader__icn">
+                                            <div class="pswp__preloader__cut">
+                                                <div class="pswp__preloader__donut"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                                    <div class="pswp__share-tooltip"></div>
+                                </div>
+                                <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+                                </button>
+                                <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+                                </button>
+                                <div class="pswp__caption">
+                                    <div class="pswp__caption__center"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="block_info_1 type_1">
+                    {% if article.tags is not empty %}
+                        <div class="tags">
+                            <div class="title"><span>Tag-uri</span></div>
+                            <ul>
+                                {% for tag in article.tags %}
+                                    <li>
+                                    <span class="label label-default">
+                                        <a><i class="fa fa-tag"></i> {{ tag.name }}</a>
+                                    </span>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% endif %}
+
+                    <div class="rating">
+                        <div class="title"><span>Rating</span></div>
+
+                        <div class="text">
+                            <div class="num">{{ article.views }}</div>
+                            <div class="type">vizualizări</div>
+                        </div>
+                    </div>
+
+                    <div class="social">
+                        <div class="title"><span>Recomandă acest articol!</span></div>
+                        <div class="btn-group sharer-container">
+                            <a class="btn sharer-facebook" href="{{ facebook_url }}" target="_blank"
+                               title="Distribuie pe Facebook">
+                                <i class="fa fa-facebook"></i>
+                            </a>
+                            <a class="btn sharer-google-plus" href="{{ gplus_url }}" target="_blank"
+                               title="Distribuie pe Google+">
+                                <i class="fa fa-google-plus"></i>
+                            </a>
+                            <a class="btn sharer-twitter" href="{{ twitter_url }}" target="_blank"
+                               title="Tweetuie asta">
+                                <i class="fa fa-twitter"></i>
+                            </a>
+                            <a class="btn sharer-email" href="{{ email_url }}" target="_self"
+                               title="Trimite prin e-mail">
+                                <i class="fa fa-envelope"></i>
+                            </a>
+                            <a class="btn sharer-whatsapp" href="{{ wapp_url }}" target="_blank"
+                               title="Trimite pe WhatsApp">
+                                <i class="fa fa-whatsapp"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="block_about_author_post">
+                    <div class="content">
+                        <div class="name">
+                            <p>Despre autor: {{ author_name }}</p>
+                        </div>
+
+                        {% if article.author.about is defined and article.author.about is not empty %}
+                            <div class="description">
+                                <p>{{ article.author.about }}</p>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="line_1"></div>
+
+                {% set similar_articles = article_related(article.tags) %}
+
+                {% if similar_articles is not empty %}
+                    <div class="block_also_like_1">
+                        <div class="title">ARTICOLE SIMILARE</div>
+                        <div id="slider" class="slider flexslider block_posts">
+                            <ul class="slides">
+                                <li>
+                                    {% for similar in similar_articles %}
+                                        <article class="post_type_4">
+                                            {% if similar.media is not empty %}
+                                                <div class="feature">
+                                                    <div class="image">
+                                                        <a href="{{ path('main_article', {
+                                                            'category': similar.category.slug,
+                                                            'slug': similar.slug
+                                                        }) }}">
+                                                            <img src="data:{{ similar.mediaType }};base64,{{ similar.media }}"
+                                                                 alt="{{ similar.title }}">
+                                                            <span class="hover"></span>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            {% endif %}
+
+                                            <div class="content">
+                                                <div class="info">
+                                                    <div class="tags">
+                                                        <a href="{{ path('main_category', { slug: similar.category.slug }) }}">{{ similar.category.name }}</a>
+                                                    </div>
+                                                    <div class="date">{{ similar.addedAt|date(config('platform.default_date_format')) }}</div>
+                                                    <div class="stats">
+                                                        <div><i class="fa fa-eye"></i> {{ article.views }}</div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="title">
+                                                    <a href="{{ path('main_article', {
+                                                        'category': similar.category.slug,
+                                                        'slug': similar.slug
+                                                    }) }}">
+                                                        {{ similar.title }}
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </article>
+                                    {% endfor %}
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                {% endif %}
+
+                <div class="block_comments_1">
+                    <h3>Comentarii</h3>
+
+                    <div class="alert alert-warning">
+                        <p>
+                            <strong>Avertisment:</strong> Introducerea comentariilor la articol este posibilă doar
+                            autentificat cu contul de Facebook. Autorul comentariului va fi singurul responsabil de
+                            conținutul acestuia și își va asuma eventualele daune, în cazul unor acțiuni legale
+                            împotriva
+                            celor publicate pe site.
+                        </p>
+                    </div>
+
+                    <div class="alert alert-info">
+                        <p>
+                            <strong>NOTĂ:</strong> Bistrițeanul.ro vă roagă să comentați la obiect, legat de conținutul
+                            prezentat în articol. Orice deviere în afara subiectului, folosirea de cuvinte obscene,
+                            atacuri
+                            la persoană, afișarea de anunțuri publicitare, precum și jigniri, trivialități, injurii
+                            aduse
+                            cititorilor care au postat un comentariu sau persoanelor despre care se scrie în articol, se
+                            va
+                            sancționa prin cenzurarea partială a comentariului, ștergerea integrală sau chiar
+                            interzicerea
+                            dreptului de a posta comentarii.
+                        </p>
+                    </div>
+
+                    <div class="comments">
+                        <div class="fb-comments"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <h1>Cele mai citite articole:</h1>
+                <div class="block_sidebar_popular_posts">
+                    {{ article_most_viewed()|raw }}
+                </div>
+                <hr>
+                {% include ':_ads:article_right_1.html.twig' %}
+                <hr>
+            </div>
+        </div>
+    </article>
+{% endblock %}

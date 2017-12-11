@@ -1,0 +1,11 @@
+{% extends '::login.html.twig' %}
+
+{% block module_title %}
+    Conectare reușită!
+{% endblock %}
+
+{% block module_form %}
+    <div class="alert alert-success">
+        <p>{{ 'header.success' | trans({'%name%': userInformation.realName}, 'HWIOAuthBundle') }}</p>
+    </div>
+{% endblock %}

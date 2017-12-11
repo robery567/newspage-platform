@@ -1,0 +1,95 @@
+{% extends '::panel.html.twig' %}
+
+{% set page_name = 'Informații articol' %}
+
+{% block title %}
+    {{ page_name }} : Panou Redactor
+{% endblock %}
+
+{% block body_title %}
+    <h1>{{ page_name }}</h1>
+{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="panel panel-default">
+            <div class="panel-heading"></div>
+
+            <div class="panel-body">
+                <table class="table table-responsive table-bordered">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ article.id }}</td>
+            </tr>
+            <tr>
+                <th>ID Articol</th>
+                <td>{{ article.articleId }}</td>
+            </tr>
+            <tr>
+                <th>Titlu</th>
+                <td>{{ article.title }}</td>
+            </tr>
+            <tr>
+                <th>Categorie</th>
+                <td>{{ article.category.name }}</td>
+            </tr>
+            <tr>
+                <th>Slug</th>
+                <td>{{ article.slug }}</td>
+            </tr>
+            <tr>
+                <th>Data adăugării</th>
+                <td>{% if article.addedAt %}{{ article.addedAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Data actualizării</th>
+                <td>{% if article.updatedAt %}{{ article.updatedAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Previzuaizare</th>
+                <td>{{ article.preview|raw }}</td>
+            </tr>
+            <tr>
+                <th>Conținut</th>
+                <td>{{ article.content|raw }}</td>
+            </tr>
+            {% if article.type == 1 and (article.media is not empty) %}
+                <tr>
+                    <th>Video</th>
+                    <td>
+                        <div class="embed-responsive embed-responsive-16by9">
+                            <video class="embed-responsive-item" controls>
+                                <source src="{{ article.media }}" type="video/mp4">
+                                Your browser does not support HTML5 video.
+                            </video>
+                        </div>
+                    </td>
+                </tr>
+            {% endif %}
+            <tr>
+                <th>Tag-uri</th>
+                <td>{{ article.tags|join(', ') }}</td>
+            </tr>
+        </tbody>
+    </table>
+            </div>
+
+            <div class="panel-footer">
+                <div class="btn-group">
+                    <a href="{{ path('panel_article_index') }}" class="btn btn-default">Înapoi la listă</a>
+                    <a href="{{ path('main_article', {
+                        'category': article.category.slug,
+                        'slug': article.slug
+                    }) }}" class="btn btn-default">
+                        Vezi articolul public
+                    </a>
+                    <a href="{{ path('panel_article_edit', { 'id': article.id }) }}" class="btn btn-primary">Modifică</a>
+                </div>
+                {{ form_start(delete_form) }}
+                <input type="submit" value="Șterge" class="btn btn-danger">
+                {{ form_end(delete_form) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,79 @@
+{% extends '::panel.html.twig' %}
+
+{% set page_name = 'Listare utilizatori' %}
+
+{% block title %}
+    {{ page_name }} : Panou Administrator
+{% endblock %}
+
+{% block body_title %}
+    <h1>{{ page_name }}</h1>
+{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <i class="fa fa-list-ol"></i> Listare utilizatori
+                <div class="pull-right">
+                    <div class="btn-group">
+                        <div class="btn-group">
+                            <a href="{{ path('panel_user_new') }}" class="btn btn-primary">
+                                Adaugă un utilizator nou!
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+
+            <div class="panel-body">
+                <table class="table table-responsive table-striped">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Numele complet</th>
+                        <td>Funcția</td>
+                        <th>Status</th>
+                        <th>Acțiuni</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for user in users %}
+                        <tr>
+                            <td>{{ user.id }}</td>
+                            <td><a href="{{ path('panel_user_show', { 'id': user.id }) }}">{{ user.fullName }}</a></td>
+                            <td>{% if user.position is empty %}Cititor{% else %}{{ user.position }}{% endif %}</td>
+                            <td>
+                                {% if user.enabled %}
+                                    <span class="label label-success"><i class="fa fa-check"></i></span> Activ
+                                {% else %}
+                                    <span class="label label-danger"><i class="fa fa-times"></i></span> Inactiv
+                                {% endif %}
+                            </td>
+                            <td>
+                                <a class="btn btn-default" href="{{ path('panel_user_show', { 'id': user.id }) }}">
+                                    <i class="fa fa-info"></i>
+                                </a>
+
+                                <a class="btn btn-primary" href="{{ path('panel_user_edit', { 'id': user.id }) }}">
+                                    <i class="fa fa-edit"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="panel-footer">
+                {% if users.haveToPaginate %}
+                    <div class="pagination pagination-lg pull-right">
+                        {{ pagerfanta(users, 'twitter_bootstrap3_translated', {routeName: 'panel_user_index_paginated'}) }}
+                    </div>
+                {% endif %}
+            </div>
+
+        </div>
+    </div>
+{% endblock %}

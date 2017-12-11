@@ -1,0 +1,15 @@
+{% trans_default_domain 'FOSUserBundle' %}
+{% extends "::platform.html.twig" %}
+
+{% block title %}Panou utilizator &mdash; {% endblock %}
+
+{% block body_title %}
+	<h1>Resetare parolă - Pasul 1</h1>
+{% endblock %}
+
+{% block body %}
+	{{ form_start(form, {'method': 'post', 'action': path('fos_user_registration_register'), 'attr': {'class': 'fos_user_registration_register'}}) }}
+	{{ form_widget(form) }}
+	<input type="submit" value="{{ 'registration.submit'|trans }}" class="btn btn-article-headline btn-lg">
+	{{ form_end(form) }}
+{% endblock %}

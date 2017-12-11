@@ -1,0 +1,14 @@
+{% extends '::platform.html.twig' %}
+
+{% block title %}Updater &mdash; {% endblock %}
+
+{% block body %}
+    <div class="panel panel-primary">
+        <div class="panel-heading">updater</div>
+        <div class="panel-updater">
+            <pre class="updater">
+                {{ results|raw }}
+            </pre>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,18 @@
+hwi_oauth:
+    firewall_names: [main]
+    connect:
+        account_connector: my_user_provider
+    fosub:
+        username_iterations: 30
+        properties:
+            facebook: facebook_id
+    resource_owners:
+        facebook:
+            type: facebook
+            client_id: '%oauth.facebook.client_id%'
+            client_secret: '%oauth.facebook.client_secret%'
+            scope: email
+            options:
+                csrf: true
+                display: popup
+                auth_type: rerequest

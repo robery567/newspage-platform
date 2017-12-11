@@ -1,0 +1,47 @@
+{% extends "::platform.html.twig" %}
+
+{% block title %}Redacția &mdash; {% endblock %}
+
+{% block body %}
+    <div class="block_general_title_2">
+        <h1>Redacția</h1>
+    </div>
+	<div class="row">
+        <div class="col-md-9">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <i class="fa fa-list-ol"></i> Redacția
+                </div>
+
+                <div class="panel-body">
+                    <table class="table table-responsive table-striped">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Nume</th>
+                                <th>Poziție</th>
+                                <th>E-mail</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for redactor in redactors %}
+	                            <tr>
+                                    <td>{{ loop.index }}</td>
+                                    <td>{{ redactor.fullName }}</td>
+                                    <td>{{ redactor.position }}</td>
+                                    <td>{{ redactor.email|replace({'@': '[at]'}) }}</td>
+                                </tr>
+                            {% else %}
+	                            <tr>
+                                    <td colspan="8" class="info">
+                                        <p>Momentan nu există niciun redacotr!</p>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,79 @@
+{% extends '::panel.html.twig' %}
+
+{% set page_name = 'Prima pagină' %}
+
+{% block title %}
+	{{ page_name }} : Setări site
+{% endblock %}
+
+{% block body_title %}
+	<h1 class="page-header">{{ page_name }}</h1>
+{% endblock %}
+
+{% block body %}
+	<div class="row">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <i class="fa fa-list-ol"></i> Listare setări
+	            {% if is_granted('ROLE_SYSOP') %}
+	                <div class="pull-right">
+	                    <div class="btn-group">
+	                        <div class="btn-group">
+	                            <a href="{{ path('panel_setting_new') }}" class="btn btn-primary">Adaugă o setare nouă!</a>
+	                        </div>
+	                    </div>
+	                </div>
+
+	                <div class="clearfix"></div>
+	            {% endif %}
+            </div>
+
+            <div class="panel-body">
+                <table id="dt-categories" class="table table-responsive table-striped">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Nume</th>
+                            <th>Acțiuni</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+	                    {% for setting in settings %}
+		                    <tr>
+			                    <td>{{ setting.id }}</td>
+			                    <td>
+				                    <a href="{{ path('panel_setting_view', {'id': setting.id}) }}">
+					                    {{ setting.name }}
+				                    </a>
+			                    </td>
+			                    <td>
+                                    <a class="btn btn-default" href="{{ path('panel_setting_view', { 'id': setting.id }) }}">
+                                        <i class="fa fa-info"></i>
+                                    </a>
+                                    <a class="btn btn-primary"  href="{{ path('panel_setting_edit', { 'id': setting.id }) }}">
+                                        <i class="fa fa-edit"></i>
+                                    </a>
+			                    </td>
+		                    </tr>
+	                    {% else %}
+		                    <tr>
+			                    <td colspan="5" class="warning">
+				                    Momentan nu există nicio setare pentru site!
+			                    </td>
+		                    </tr>
+	                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="panel-footer">
+				{% if settings.haveToPaginate %}
+					<div class="pagination pagination-lg pull-right">
+						{{ pagerfanta(settings, 'twitter_bootstrap3_translated', {routeName: 'panel_settings_index_paginated'}) }}
+					</div>
+				{% endif %}
+			</div>
+
+        </div>
+    </div>
+{% endblock %}

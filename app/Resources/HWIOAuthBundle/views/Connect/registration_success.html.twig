@@ -1,0 +1,11 @@
+{% extends '::login.html.twig' %}
+
+{% block module_title %}
+	Înregistrare finalizată!
+{% endblock %}
+
+{% block module_form %}
+	<div class="alert alert-success">
+        <p>{{ 'header.registration_success' | trans({'%username%': app.user.username}, 'HWIOAuthBundle') }}</p>
+    </div>
+{% endblock %}

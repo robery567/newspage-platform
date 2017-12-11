@@ -1,0 +1,132 @@
+{% extends "::platform.html.twig" %}
+
+{% block title %}Panou utilizator &mdash; {% endblock %}
+
+{% block body %}
+    <div class="block_general_title_2">
+        <h1>Listare reclame</h1>
+        <div class="stats">
+            <div class="likes">15</div>
+            <div class="comments">7</div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-9">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <i class="fa fa-list-ol"></i> Listare reclame proprii
+                    <div class="pull-right">
+                        <div class="btn-group">
+                            <div class="btn-group">
+                                <button type="button" data-toggle="modal" data-target="#show-contact-info" class="btn btn-article-headline">Adaugă o reclamă nouă!</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+
+                <div class="panel-body">
+                    <table id="dt-categories" class="table table-responsive table-striped">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Nume</th>
+                                <th>Tip</th>
+                                <th>Poziție</th>
+                                <th>Activ?</th>
+                                <th>Vizualizări</th>
+                                <th>Accesări</th>
+                                <th>Acțiuni</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for ad in ads %}
+                                <tr>
+                                    <td>{{ ad.id }}</td>
+                                    <td>
+                                        <a href="{{ path('panel_ad_view', {'uuid': ad.uuid}) }}">
+                                            {{ ad.title }}
+                                        </a>
+                                    </td>
+                                    <td>{{ ad_type(ad.type) }}</td>
+                                    <td>{{ ad_position(ad.position) }}</td>
+                                    <td>{{ ad_status(ad.addedAt, ad.expiredAt) }}</td>
+                                    <td>{{ ad.views }}</td>
+                                    <td>{{ ad.clicks }}</td>
+                                    <td>
+                                        <div class="btn-group">
+                                        <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
+                                            Alege acțiunea...
+                                            <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu pull-right" role="menu">
+                                            <li>
+                                                <a href="{{ path('panel_ad_view', { 'uuid': ad.uuid }) }}">
+                                                    <i class="fa fa-info"></i> informații
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="{{ path('panel_ad_edit', { 'uuid': ad.uuid }) }}">
+                                                    <i class="fa fa-edit"></i> modifică
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="{{ path('panel_ad_delete', { 'uuid': ad.uuid }) }}">
+                                                    <i class="fa fa-trash"></i> șterge
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    </td>
+                                </tr>
+                            {% else %}
+                                <tr>
+                                    <td colspan="8" class="danger">
+                                        Momentan nu ai nicio reclamă afișată pe site!
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="panel-footer">
+                    {% if ads.haveToPaginate %}
+                        <div class="pagination pagination-lg pull-right">
+                            {{ pagerfanta(ads, 'twitter_bootstrap3_translated', { routeName: 'panel_ad_index_paginated' }) }}
+                        </div>
+                    {% endif %}
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div id="show-contact-info" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Cumpără reclamă pe site-ul Bistrițeanul!</h4>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        Pentru publicitate pe site-ul <a href="{{ path('main_index') }}">Bistrițeanul.ro</a>, vă rugăm să ne contactați:
+                    </p>
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <i class="fa fa-envelope"></i> E-mail: publicitate@bistriteanul.ro
+                        </li>
+                        <li class="list-group-item">
+                            <i class="fa fa-phone"></i> Telefon mobil: 0754-777.536
+                        </li>
+                    </ul>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Închide</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+{% endblock %}

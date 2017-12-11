@@ -1,0 +1,23 @@
+{% extends '::platform.html.twig' %}
+
+{% block title %}
+	Eroare 500 &mdash;
+{% endblock %}
+
+{% block body %}
+	<div class="row">
+		<div class="col-md-12">
+			<h2>Eroare 500</h2>
+
+			<div class="alert alert-danger">
+				<p class="lead">
+					A avut loc o eroare internă.
+				</p>
+
+				<p>
+					Încearcă să încarci pagina din nou sau întoarce-te la <a href="{{ path('main_index') }}">prima pagină</a>.
+				</p>
+			</div>
+		</div>
+	</div>
+{% endblock %}

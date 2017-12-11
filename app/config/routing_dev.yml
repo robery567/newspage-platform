@@ -1,0 +1,6 @@
+_errors:
+    resource: '@TwigBundle/Resources/config/routing/errors.xml'
+    prefix: /debug/_error
+
+_main:
+    resource: routing.yml

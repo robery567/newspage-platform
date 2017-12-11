@@ -1,0 +1,147 @@
+<div class="navbar-header">
+    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+    </button>
+</div>
+<div id="navbar" class="navbar-collapse collapse">
+    <ul class="nav navbar-nav">
+        <li>
+            <a href="{{ path('main_index') }}">
+                <i class="fa fa-home"></i> Prima pagină
+            </a>
+        </li>
+        <li>
+            <a href="{{ path('main_redactors') }}">
+                <i class="fa fa-users"></i> Redacția
+            </a>
+        </li>
+        {% if is_granted('ROLE_REDACTOR') %}
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                <i class="fa fa-file"></i> Redactor<span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu">
+                <li>
+                    <a href="{{ path('panel_article_new') }}">
+                        <i class="fa fa-edit"></i> Articol nou
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ path('panel_article_index') }}">
+                        <i class="fa fa-list"></i> Administrare articole
+                    </a>
+                </li>
+                {% if is_granted('ROLE_ADMIN') %}
+                    <li>
+                        <a href="{{ path('panel_statistics_articles') }}">
+                            <i class="fa fa-bar-chart"></i> Statistici
+                        </a>
+                    </li>
+                {% endif %}
+            </ul>
+        </li>
+        {% endif %}
+        {% if is_granted('ROLE_ADMIN') %}
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                    <i class="fa fa-dashboard"></i> Administrare
+                </a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a href="{{ path('panel_admin_index') }}">
+                            <i class="fa fa-dashboard"></i> Prima pagină
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ path('panel_category_index') }}">
+                            <i class="fa fa-sitemap"></i> Categorii
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ path('panel_user_index') }}">
+                            <i class="fa fa-user"></i> Utilizatori
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ path('panel_setting_index') }}">
+                            <i class="fa fa-wrench"></i> Setări
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        {% endif %}
+        {% if is_granted('ROLE_ADMIN') %}
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                    <i class="fa fa-euro"></i> Reclame
+                </a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a href="{{ path('panel_ad_index') }}">
+                            <i class="fa fa-list"></i> Listare reclame
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ path('panel_ad_new') }}">
+                            <i class="fa fa-plus"></i> Adăugare reclame
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        {% endif %}
+        {% if app.user %}
+            {% set button_icon = 'user' %}
+            {% if app.user.fullName is not empty %}
+                {% set button_text = app.user.fullName %}
+            {% else %}
+                {% set button_text = app.user.username %}
+            {% endif %}
+        {% else %}
+            {% set button_icon = 'user-secret' %}
+            {% set button_text = 'Conectare' %}
+        {% endif %}
+        <li{% if app.environment == 'dev' %} class="dropdown"{% endif %}>
+            <a href="{{ path('fos_user_security_login') }}"{% if app.environment == 'dev' %} class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"{% endif %}>
+                <i class="fa fa-{{ button_icon }}"></i> {{ button_text }}
+            </a>
+            <ul class="dropdown-menu">
+                {% if is_granted('ROLE_USER') %}
+                    <li>
+                        <a href="{{ path('fos_user_profile_show') }}">
+                            <i class="fa fa-info"></i> Informații profil
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ path('fos_user_profile_edit') }}">
+                            <i class="fa fa-refresh"></i> Actualizare profil
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ path('panel_account_ads') }}">
+                            <i class="fa fa-euro"></i> Reclame proprii
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ logout_path() }}">
+                            <i class="fa fa-sign-out"></i> Deconectare
+                        </a>
+                    </li>
+                {% elseif app.environment == 'dev' %}
+                    <li>
+                        <a href="{{ path('fos_user_security_login') }}">
+                            <i class="fa fa-sign-in"></i> Conectare
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ path('fos_user_registration_register') }}">
+                            <i class="fa fa-sign-out"></i> Înregistrare
+                        </a>
+                    </li>
+                {% endif %}
+            </ul>
+        </li>
+    </ul>
+</div>

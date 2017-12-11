@@ -1,0 +1,10 @@
+{% set header_right_1 = ad('header_right_1') %}
+{% if header_right_1 is not empty %}
+    {% for ad in header_right_1 %}
+        <div class="announcement announcement__header announcement__header--right">
+            <a href="{{ url('ad_redirect', { 'uuid': ad.uuid }) }}">
+                <img src="{{ ad.image }}" title="{{ ad.title }}">
+            </a>
+        </div>
+    {% endfor %}
+{% endif %}

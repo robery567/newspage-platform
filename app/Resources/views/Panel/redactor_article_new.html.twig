@@ -1,0 +1,93 @@
+{% extends '::panel.html.twig' %}
+
+{% set page_name = 'Adaugă articol nou' %}
+{% set cols = 12 %}
+{% set isVideoPage = false %}
+{% if app.request.get('_route') == 'panel_article_video_new' %}
+    {% set isVideoPage = true %}
+    {% set cols = 8 %}
+{% endif %}
+
+{% block title %}
+    {{ page_name }} : Panou Redactor
+{% endblock %}
+
+{% block body_title %}
+    <h1>{{ page_name }}</h1>
+{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-md-{{ cols }}">
+            <div class="panel panel-primary">
+                <div class="panel-heading"></div>
+
+                <div class="panel-body">
+                    {{ form_start(form, { 'attr': { 'novalidate': true, 'data-article-id': articleId } }) }}
+                        {{ form_row(form.title) }}
+                        {{ form_row(form.articleId) }}
+                        {{ form_row(form.preview) }}
+                        {{ form_row(form.content) }}
+                        {{ form_row(form.category) }}
+                        {{ form_row(form.media) }}
+                        {{ form_row(form.tags) }}
+                        {{ form_row(form.type) }}
+                        {{ form_row(form.save) }}
+	                {{ form_end(form) }}
+                </div>
+
+                <div class="panel-footer">
+                    <div class="btn-group">
+                        <a href="{{ path('panel_article_index') }}" class="btn btn-default">
+                            <i class="fa fa-arrow-left"></i> Înapoi la listă
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% if isVideoPage %}
+        <div class="col-md-4">
+            <div class="panel panel-default">
+                <div class="panel-heading"></div>
+                <div class="panel-body">
+                    <h4>Upload video</h4>
+                    <p>
+                        Pentru articolul video, trebuie să folosiți acest formular separat pentru upload video, întrucât
+                        sistemul de articole a fost inițial realizat fără conceptul de articol video. Acest formular
+                        adaugă în mod automat un video per articol și-l va afișa pe pagina web.
+                    </p>
+                    <ol>
+                        <li>Este permis un singur fișier tip MP4 sau AVI</li>
+                        <li>
+                            Se folosește mereu ultimul video uploadat. Adică, dacă uploadați un video greșit, o
+                            reuploadați, se șterge cea curentă și se înlocuiește cu cea nouă.
+                        </li>
+                    </ol>
+
+                    <div class="embed-responsive embed-responsive-16by9">
+                        <iframe class="embed-responsive-item" src="{{ config('api.video_url') }}/upload/{{ articleId }}"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+{% endblock %}
+
+{% if isVideoPage %}
+    {% block javascripts %}
+        {{ parent() }}
+        <script type="text/javascript">
+            window.addEventListener('message',function(e) {
+                var key = e.message ? 'message' : 'data';
+                var data = e[key];
+                var cdnUrl = {{ config('cdn.url')|raw }};
+                var url = "http://"+ cdnUrl +"/video/{{ articleId }}.mp4";
+
+                if (data === 'uploaded') {
+                    document.getElementById('appbundle_article_media').value = url;
+                }
+            }, false);
+        </script>
+    {% endblock %}
+{% endif %}

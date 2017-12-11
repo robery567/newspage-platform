@@ -1,0 +1,15 @@
+{% extends "::panel.html.twig" %}
+
+{% set page_name = 'Profiler' %}
+
+{% block title %}
+	{{ page_name }} : Panou Operator
+{% endblock %}
+
+{% block body_title %}
+	<h1 class="page-header">{{ page_name }}</h1>
+{% endblock %}
+
+{% block body %}
+	{{ render(controller('web_profiler.controller.profiler:homeAction')) }}
+{% endblock %}

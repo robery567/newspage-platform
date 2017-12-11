@@ -1,0 +1,74 @@
+{% extends '::panel.html.twig' %}
+
+{% set page_name = 'Informații reclamă' %}
+
+{% block title %}
+	{{ page_name }} : Panou reclame
+{% endblock %}
+
+{% block body_title %}
+	<h1>{{ page_name }}</h1>
+{% endblock %}
+
+{% block body %}
+	<div class="row">
+        <div class="panel panel-default">
+            <div class="panel-heading"></div>
+
+            <div class="panel-body">
+                    <table class="table table-responsive table-bordered">
+                    <tbody>
+                        <tr>
+                            <th>ID unic</th>
+                            <td>{{ ad.uuid }}</td>
+                        </tr>
+                        <tr>
+                            <th>Nume</th>
+                            <td>{{ ad.title }}</td>
+                        </tr>
+	                    {% if ad.advertiser is not empty %}
+		                    <tr>
+			                    <th>Utilizator</th>
+			                    <td>{{ ad.advertiser.fullName }}</td>
+		                    </tr>
+	                    {% endif %}
+						<tr>
+							<th>Imagine</th>
+							<td><img src="{{ ad.image }}"></td>
+						</tr>
+	                    <tr>
+		                    <th>Data adăugării</th>
+		                    <td>{{ ad.addedAt|date(config('platform.default_date_format')) }}</td>
+	                    </tr>
+	                    <tr>
+		                    <th>Data expirării</th>
+		                    <td>{{ ad.expiredAt|date(config('platform.default_date_format')) }}</td>
+	                    </tr>
+	                    <tr>
+		                    <th>Articolul a expirat?</th>
+		                    <td>{{ ad_status(ad.expiredAt) }}</td>
+	                    </tr>
+                        <tr>
+	                        <th>Afișări</th>
+	                        <td>{{ ad.views }}</td>
+                        </tr>
+	                    <tr>
+		                    <th>Accesări</th>
+		                    <td>{{ ad.clicks }}</td>
+	                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="panel-footer">
+                <div class="btn-group">
+                    <a href="{{ path('panel_ad_index') }}" class="btn btn-default">Înapoi la listă</a>
+                    <a href="{{ path('panel_ad_edit', { 'uuid': ad.uuid }) }}" class="btn btn-primary">Modifică</a>
+                </div>
+                {{ form_start(delete_form) }}
+				<input type="submit" value="Șterge" class="btn btn-danger">
+                {{ form_end(delete_form) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

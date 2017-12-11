@@ -1,0 +1,58 @@
+{% extends '::panel.html.twig' %}
+
+{% set page_name = 'Informații utilizator' %}
+
+{% block title %}
+	{{ page_name }} : Panou Administrator
+{% endblock %}
+
+{% block body_title %}
+    <h1>{{ page_name }}</h1>
+{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="panel panel-default">
+            <div class="panel-heading"></div>
+
+            <div class="panel-body">
+                    <table class="table table-responsive table-bordered">
+                    <tbody>
+                        <tr>
+                            <th>ID</th>
+                            <td>{{ user.id }}</td>
+                        </tr>
+                        <tr>
+                            <th>Nume complet</th>
+                            <td>{{ user.fullName }}</td>
+                        </tr>
+	                    <tr>
+                            <th>Rolul</th>
+                            <td>{{ user.position }}</td>
+                        </tr>
+                        <tr>
+                            <th>Status</th>
+                            <td>
+                                {% if user.enabled %}
+                                    <i class="fa fa-check"></i> Activ
+								{% else %}
+                                    <i class="fa fa-times"></i> Inactiv
+                                {% endif %}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="panel-footer">
+                <div class="btn-group">
+                    <a href="{{ path('panel_user_index') }}" class="btn btn-default">Înapoi la listă</a>
+                    <a href="{{ path('panel_user_edit', { 'id': user.id }) }}" class="btn btn-primary">Modifică</a>
+                </div>
+                {{ form_start(delete_form) }}
+                <input type="submit" value="Șterge" class="btn btn-danger">
+                {{ form_end(delete_form) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

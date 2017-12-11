@@ -1,0 +1,42 @@
+imports:
+    - { resource: config.yml }
+
+#doctrine:
+#    orm:
+#        metadata_cache_driver: apc
+#        result_cache_driver: apc
+#        query_cache_driver: apc
+
+monolog:
+    handlers:
+        main:
+            type: fingers_crossed
+            action_level: error
+            handler: nested
+        nested:
+            type: stream
+            path: '%kernel.logs_dir%/%kernel.environment%.log'
+            level: debug
+        console:
+            type: console
+            process_psr_3_messages: false
+
+doctrine:
+    orm:
+        query_cache_driver:
+            type:                 redis
+            host:                 '%redis_host%'
+            port:                 '%redis_port%'
+        metadata_cache_driver:
+            type:                 redis
+            host:                 '%redis_host%'
+            port:                 '%redis_port%'
+        result_cache_driver:
+            type:                 redis
+            host:                 '%redis_host%'
+            port:                 '%redis_port%'
+
+framework:
+    profiler:
+        matcher:
+            service: AppBundle\Profiler\SysopMatcher

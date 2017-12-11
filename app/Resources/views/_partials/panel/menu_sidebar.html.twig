@@ -1,0 +1,104 @@
+<ul class="nav" id="side-menu">
+    <li>
+        <a href="{{ path('panel_admin_index') }}"><i class="fa fa-dashboard fa-fw"></i> Prima pagină</a>
+    </li>
+
+    {% if is_granted('ROLE_REDACTOR') %}
+        <li>
+            <a href="#"><i class="fa fa-file fa-fw"></i> Conținut<span class="fa arrow"></span></a>
+            <ul class="nav nav-second-level">
+                <li>
+                    <a href="#">Articole</a>
+                    <ul class="nav nav-third-level">
+                        <li><a href="{{ path('panel_article_index') }}">Listare articole</a></li>
+                        <li><a href="{{ path('panel_article_new') }}">Scrie un nou articol!</a></li>
+                        <li><a href="{{ path('panel_article_video_new') }}">Articol video nou</a></li>
+                        <li><a href="{{ path('panel_article_video_list') }}">Listare articole video</a></li>
+                        <li><a href="{{ path('panel_article_recommended_list') }}">Listare articole recomandate</a></li>
+                        <li><a href="{{ path('panel_article_hot_list') }}">Listare articole fierbinți</a></li>
+                    </ul>
+                </li>
+
+                {% if is_granted('ROLE_ADMIN') %}
+                    <li>
+                        <a href="#">Categorii</a>
+                        <ul class="nav nav-third-level">
+                            <li><a href="{{ path('panel_category_index') }}">Listare categorii</a></li>
+                            <li><a href="{{ path('panel_category_new') }}">Adăugare categorie noua</a></li>
+                        </ul>
+                    </li>
+                {% endif %}
+            </ul>
+        </li>
+    {% endif %}
+
+    {% if is_granted('ROLE_ADMIN') %}
+        <li>
+            <a href="#"><i class="fa fa-bar-chart fa-fw"></i> Marketing<span class="fa arrow"></span></a>
+            <ul class="nav nav-second-level">
+                <li>
+                    <a href="#">Reclame</a>
+                    <ul class="nav nav-third-level">
+                        <li><a href="{{ path('panel_ad_index') }}">Listare reclame</a></li>
+                        <li><a href="{{ path('panel_ad_new') }}">Adăugare reclame</a></li>
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="#">Statistici</a>
+                    <ul class="nav nav-third-level">
+                        <li><a href="{{ path('panel_statistics_articles') }}">Articole</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+    {% endif %}
+
+    {% if is_granted('ROLE_ADMIN') %}
+        <li>
+            <a href="#"><i class="fa fa-users fa-fw"></i> Utilizatori și grupuri</a>
+            <ul class="nav nav-second-level">
+                <li>
+                    <a href="#">Utilizatori</a>
+                    <ul class="nav nav-third-level">
+                        <li><a href="{{ path('panel_user_index') }}">Listare</a></li>
+                        <li><a href="{{ path('panel_user_new') }}">Adăugare</a></li>
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="#">Echipa</a>
+                    <ul class="nav nav-third-level">
+                        <li><a href="{{ path('panel_user_team') }}">Listare</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+    {% endif %}
+
+    {% if is_granted('ROLE_ADMIN') %}
+        <li>
+            <a href="#"><i class="fa fa-tables"></i> Platformă</a>
+            <ul class="nav nav-second-level">
+                <li>
+                    <a href="#">Setări</a>
+                    <ul class="nav nav-third-level">
+                        <li><a href="{{ path('panel_setting_index') }}">Listare</a></li>
+                        <li><a href="{{ path('panel_setting_new') }}">Adăugare</a></li>
+                    </ul>
+                </li>
+
+                {% if is_granted('ROLE_SYSOP') %}
+                    <li>
+                        <a href="#">Operator</a>
+                        <ul class="nav nav-third-level">
+                            <li><a href="{{ path('panel_operator_phpinfo') }}">Informații PHP</a></li>
+                            <li><a href="{{ path('panel_operator_profiler') }}">Profiler</a></li>
+                            <li><a href="{{ path('panel_operator_logs') }}">Jurnal</a></li>
+                        </ul>
+                    </li>
+                {% endif %}
+            </ul>
+        </li>
+    {% endif %}
+</ul>

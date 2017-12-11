@@ -1,0 +1,10 @@
+{% set menu_bottom_1 = ad('menu_bottom_1') %}
+{% if menu_bottom_1 is not empty %}
+    {% for ad in menu_bottom_1 %}
+        <div class="announcement announcement__menu announcement__menu--bottom">
+            <a href="{{ url('ad_redirect', { 'uuid': ad.uuid }) }}">
+                <img src="{{ ad.image }}" title="{{ ad.title }}">
+            </a>
+        </div>
+    {% endfor %}
+{% endif %}

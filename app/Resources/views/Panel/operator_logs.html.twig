@@ -1,0 +1,38 @@
+{% extends "::panel.html.twig" %}
+
+{% set page_name = 'Logs' %}
+
+{% block title %}
+	{{ page_name }} : Panou Operator
+{% endblock %}
+
+{% block body_title %}
+	<h1 class="page-header">{{ page_name }}</h1>
+{% endblock %}
+
+{% block body %}
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<h3>Symfony logs</h3>
+			<div class="pull-right">
+				<a href="{{ path('panel_operator_logs_clear') }}" class="btn btn-warning">Clear logs</a>
+			</div>
+			<div class="clearfix"></div>
+		</div>
+		<div class="panel-body">
+			{% if file %}
+				<pre class="prettyprint">
+					<code>
+						{% for line in file %}
+							{{ line }}
+						{% endfor %}
+					</code>
+				</pre>
+			{% else %}
+				<div class="alert alert-warning">
+					<p>Symfony log file is {{ state }}!</p>
+				</div>
+			{% endif %}
+		</div>
+	</div>
+{% endblock %}

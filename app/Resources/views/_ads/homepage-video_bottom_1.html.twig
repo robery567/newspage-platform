@@ -1,0 +1,38 @@
+{% set homepage_video_bottom_1 = ad('homepage-video_bottom_1') %}
+
+{% if homepage_video_bottom_1 is not empty %}
+<div class="row">
+    <hr>
+    <div class="col-md-12">
+        {% set columns = 2 %}
+        {% set rowCounter = 1 %}
+        {% set dataCounter = 0 %}
+        {% set newRow = true %}
+
+        {% set btCols = (12 / columns)|round(0, 'ceil') %}
+
+        {% for ad in homepage_video_bottom_1 %}
+            {% if newRow %}
+                <div class="row">
+                {% set newRow = false %}
+            {% endif %}
+
+            <div class="col-md-{{ btCols }}">
+                <div class="announcement announcement__homepage-video announcement__homepage-video--bottom">
+                    <a href="{{ url('ad_redirect', { 'uuid': ad.uuid }) }}">
+                        <img src="{{ ad.image }}" title="{{ ad.title }}" class="img-responsive">
+                    </a>
+                </div>
+            </div>
+
+            {% if (rowCounter / columns) == 1 or (rowCounter % columns) == 0 or (homepage_video_bottom_1|length - dataCounter) < columns %}
+                </div>
+                {% set newRow = true %}
+            {% endif %}
+
+            {% set rowCounter = rowCounter + 1 %}
+            {% set dataCounter = dataCounter + 1 %}
+        {% endfor %}
+    </div>
+</div>
+{% endif %}

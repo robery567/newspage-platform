@@ -1,0 +1,17 @@
+{% block module_error %}
+	{% if error is defined and error %}
+        <div class="alert alert-danger">
+            <p>{{ error }}</p>
+        </div>
+	{% endif %}
+{% endblock %}
+
+{% block module_buttons %}
+    <div class="btn-group">
+        {% for owner in hwi_oauth_resource_owners() %}
+            <a href="{{ hwi_oauth_login_url(owner) }}" class="btn sharer-{{ owner|lower }}">
+                <i class="fa fa-{{ owner|lower }}"></i> {{ owner|capitalize }}
+            </a>
+        {% endfor %}
+    </div>
+{% endblock %}

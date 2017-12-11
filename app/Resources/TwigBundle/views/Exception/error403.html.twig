@@ -1,0 +1,23 @@
+{% extends '::platform.html.twig' %}
+
+{% block title %}
+	Eroare 403 &mdash;
+{% endblock %}
+
+{% block body %}
+	<div class="row">
+		<div class="col-md-12">
+			<h2>Eroare 403</h2>
+
+			<div class="alert alert-danger">
+				<p class="lead">
+					Nu aveți permisiunea de a accesa această pagină.
+				</p>
+
+				<p>
+					Cere accesul de la managerul tău sau administratorul de sistem pentru această resursă. <a href="{{ path('main_index') }}">Înapoi la prima pagină</a>.
+				</p>
+			</div>
+		</div>
+	</div>
+{% endblock %}

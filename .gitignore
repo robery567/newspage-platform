@@ -1,0 +1,38 @@
+/app/config/parameters.yml
+/build/
+/phpunit.xml
+/var/**/*
+!var/**/.gitkeep
+!var/SymfonyRequirements.php
+/vendor/
+/web/bundles/
+/web/assetic
+/web/app_dev.php
+/app/Migrations/Version20170719180253.php
+
+.directory
+*.php~
+.idea/*
+composer.lock
+
+# node modules
+node_modules
+
+# webpack assets
+web/build
+
+# ignoring full and raw sql data dump
+app/import/*.sql
+
+# ignoring the file that decides if console will be run with dev or prod settings
+.env
+.*-pid
+
+# ignoring php generated file(s)
+*/error_log
+error_log
+
+# ignoring all dumped sql files in root directory
+*.sql
+
+composer.phar
